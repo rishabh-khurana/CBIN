@@ -10,15 +10,8 @@ def get_data(file):
     return df
 
 def age_scattered(df):
-    
-    #plt.show()
     for col in df:
         if col != 'age' and col != 'sex':
-            '''
-            plt.scatter(x=df['age'],y=df[col],c=df['sex'])
-
-            plt.show()
-            '''
             male = df[df['sex'] == 1]
             female = df[df['sex'] == 0]
             plt.scatter(x=male['age'],y=male[col],c='Blue', label='Male')
@@ -28,8 +21,43 @@ def age_scattered(df):
             plt.ylabel(col.replace("_"," ").title(), fontsize=16)
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.11), ncol=2)
             plt.show()
-    
+
+
+def binning(df,col,num_bins,labels=[]):
+    '''
+    binning for age using histogram analysis and creates a new column with bin labels
+    '''
+    print(len(labels))
+    hist,bin_edges = np.histogram(df[col],num_bins)
+    #print(hist)
+    #print(bin_edges)
+    #filter
+    start = bin_edges[0]
+    bins = list()
+    plt.figure(figsize=(10,7))
+    #add bin column
+    df[str(col)+'_bin'] = None
+    for i in range(1,len(bin_edges)):
+        #labelling
+        if len(labels) != num_bins:
+            if bin_edges[-1] == bin_edges[i]:
+                df.loc[(df[col] >= start) & (df[col] <= round(bin_edges[i])),[str(col)+'_bin']]= str(int(round(start)))+ "-" + str(int(round(bin_edges[i])))
+            else:
+                df.loc[(df[col] >= start) & (df[col] < round(bin_edges[i])),[str(col)+'_bin']]= str(int(round(start)))+ "-" + str(int(round(bin_edges[i])-1))
+        else:
+            if bin_edges[-1] == bin_edges[i]:
+                df.loc[(df[col] >= start) & (df[col] <= round(bin_edges[i])),[str(col)+'_bin']]= labels[i-1]
+            else:
+                df.loc[(df[col] >= start) & (df[col] < round(bin_edges[i])),[str(col)+'_bin']]= labels[i-1]
+        start = round(bin_edges[i])
+    return df
+
 df = get_data("processed.cleveland.data")
-age_scattered(df)
+#example bin size is 8
+labels=['a','b','c','d','e','f','g','h']
+df = binning(df,'age',8,labels)
+print(df.head())
+
+#age_scattered(df)
 
 
