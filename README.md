@@ -5,10 +5,14 @@ Project Description Goes Here
 ## Getting Started
 
 This is set up with only Flask 1.0.2 and SQLite
+
 Database is linked and set up
 
+
 Folder structure:
+
 flaskr/static for any css, js, img files (can split further into subfolder)
+
 flaskr/templates for html files (those used for corresponding .py is in their subfolder)
 
 ## How To Run Code
@@ -22,6 +26,9 @@ The app will be served on localhost:5000
 
 ## What To Play With ATM
 Go to localhost:5000/chart/index 
+
 Enter 1 for Template Id field
+
 Any text for Random Text field
+
 => Direct to Template 1 page
