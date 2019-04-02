@@ -1,8 +1,8 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from . import db
-from . import chart
+from . import main
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,6 +26,18 @@ def create_app(test_config=None):
         pass
     
     db.init_app(app)
-    app.register_blueprint(chart.bp)
+    app.register_blueprint(main.bp)
+    
+    @app.route('/', methods=['GET'])
+    def index():
+        return render_template('home.html')
+        
+    @app.route('/about-us', methods=['GET'])
+    def about():
+        return render_template('about.html')
 
     return app
+    
+
+        
+    
