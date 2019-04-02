@@ -10,20 +10,6 @@ def get_data(file):
     df = pd.read_csv(file,sep=',',header=None ,names=usecols)
     return df
 
-def age_scattered(df):
-    
-    for col in df:
-        if col != 'age' and col != 'sex':
-            male = df[df['sex'] == 1]
-            female = df[df['sex'] == 0]
-            plt.scatter(x=male['age'],y=male[col],c='Blue', label='Male')
-            plt.scatter(x=female['age'],y=female[col],c='Pink', label='Female')
-            #plt.title('Age (x-axis) and ' + col.replace("_"," ").title()+' (y-axis)', fontsize=20)
-            plt.xlabel('Age', fontsize=18)
-            plt.ylabel(col.replace("_"," ").title(), fontsize=16)
-            plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.11), ncol=2)
-            plt.show()
-
 def scattered_json():
     df = get_data("processed.cleveland.data")
     scattered_json = [] 
@@ -121,43 +107,7 @@ def binning(df,col,num_bins,labels=[]):
     return df
 
 
-def age_stacked_bar(chosen_col,df):
-    '''
-    Function to create stacked bar chart
-    '''
-    #predefined colour scheme. Note: must be more than number of column values
-    colour = ['blue','pink','brown','red','orange']
-    
-    #create bar chart
-    for col in chosen_col:
-        if col != 'age' and col != 'sex' and col != 'bin':
-            
-            #get unique age_bin values
-            age_bins = df.age_bin.unique()
-            age_bins.sort()
 
-            #format table for bar chart
-            df1 = df[[col,'age_bin','age']]
-            tots = df1.groupby(['age_bin',col]).count()
-            tots = tots.unstack(level=1)
-            tots.columns = tots.columns.droplevel(level=0)
-            tots = tots.fillna(0)
-
-            #get unique column values
-            col_vals = df[col].unique()
-            col_vals.sort()
-            
-            #iterate through unique col values to create stack bar chart
-            bottom_value =0
-            for i in range(len(col_vals)):
-                plt.bar(age_bins, tots[col_vals[i]],bottom=bottom_value, color=colour[i],label=col_vals[i])
-                #update start value of the next stack
-                bottom_value += tots[col_vals[i]]
-            
-            plt.legend()
-            plt.xlabel('Age')
-            plt.ylabel(col.replace("_"," ").title())
-            plt.show()
   
 #print(scattered_json())            
 '''
