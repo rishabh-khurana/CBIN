@@ -1,7 +1,6 @@
 import pandas as pd
-# import numpy as np
-# from sklearn.feature_selection import RFE
-# from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
 
 
 def get_data(file):
@@ -26,13 +25,11 @@ if __name__ == '__main__':
     for row in df.itertuples():
         print(row)
 
-    # X = df.drop('target', axis=1)
-    #
-    # model = LogisticRegression()
-    # # create the RFE model and select 3 attributes
-    # rfe = RFE(model, 3)
-    #
-    # rfe = rfe.fit(X, df.target)
-    # # summarize the selection of the attributes
-    # print(rfe.support_)
-    # print(rfe.ranking_)
+    X = df.drop('target', axis=1)
+
+    model = LogisticRegression()
+    rfe = RFE(model, 1)
+
+    rfe = rfe.fit(X, df.target)
+    print(rfe.support_)
+    print(rfe.ranking_)
