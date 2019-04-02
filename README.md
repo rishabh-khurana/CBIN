@@ -18,18 +18,8 @@ flaskr/templates for html files (those used for corresponding .py is in their su
 ## How To Run Code
 Make sure you are at project directory a.k.a CBIN NOT flaskr
 
-For Mac and Linux:
 ```
-export FLASK_APP=flaskr
-export FLASK_ENV=development
-flask run
-```
-
-For windows:
-```
-set FLASK_APP=flaskr
-set FLASK_ENV=development
-flask run
+$ python start.py
 ```
 The app will be served on localhost:5000
 
