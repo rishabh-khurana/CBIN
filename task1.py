@@ -8,6 +8,8 @@ import json
 def get_data(file):
     usecols=['age','sex','chest_pain','blood_pressure','serum_cholesterol','blood_sugar','electrocardiographic_result','max_heart_rate','exercise_induced','old_peak','slope','major_vessels','thal','target']
     df = pd.read_csv(file,sep=',',header=None ,names=usecols)
+    
+    df.replace('-', np.nan)
     return df
 
 def scattered_json():
