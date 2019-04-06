@@ -1,0 +1,4 @@
+Following pyhton packages are used in this project :-
+1) sklearn
+2) pandas
+3) numpy
