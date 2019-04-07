@@ -9,7 +9,10 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC
 from sklearn.cluster import KMeans
+from sklearn.svm import LinearSVC
+from sklearn.datasets import make_classification
 import numpy as np
+from sklearn.metrics import accuracy_score
 
 def load_data(file_path,split_percentage):
     #use get_data method
@@ -63,11 +66,17 @@ def k_means_valuation():
     print(kmeans.labels_)
     return 0
 
+def Linear_SVC(X,y):
+    clf = svm.SVC(kernel='linear', C = 1.0)
+    clf.fit(X,y)
+    return 0
+    
+
 if __name__ == '__main__':
     file_path='processed.cleveland.data'
 
     # Split the data into test and train parts
-    #iris_X_train, iris_y_train, iris_X_test, iris_y_test = load_data(file_path, split_percentage=0.99)
+    iris_X_train, iris_y_train, iris_X_test, iris_y_test = load_data(file_path, split_percentage=0.99)
 
     # train a classifier
     #knn = KNeighborsClassifier()
@@ -92,5 +101,16 @@ if __name__ == '__main__':
     #print("Accuracy")
     #calc_accuracy()
 
-    print("kmeans")
-    k_means_valuation()
+    #print("kmeans")
+    #k_means_valuation()
+    LSVC=LinearSVC()
+    LSVC.fit(iris_X_train,iris_y_train)
+    y_ans=LSVC.predict(iris_X_test)
+    
+    print("Actual")
+    print(y_ans)
+
+    print("expected")
+    print(iris_y_test)
+
+    print("LSVC Accuracy :", accuracy_score(iris_y_test,y_ans))
