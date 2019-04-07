@@ -7,12 +7,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import cross_val_score
-from sklearn.svm import SVC
-from sklearn.cluster import KMeans
-from sklearn.svm import LinearSVC
-from sklearn.datasets import make_classification
+from sklearn.svm import SVC,LinearSVC
 import numpy as np
-from sklearn.metrics import accuracy_score
 
 def load_data(file_path,split_percentage):
     #use get_data method
@@ -31,86 +27,61 @@ def load_data(file_path,split_percentage):
 
     return iris_X_train, iris_y_train, iris_X_test, iris_y_test
 
+# 0 incurrs person is healthy
+# 1 incurrs person is infected 
+def assign_labels(row):
+    if row['target']==0:
+        return 0
+    else:
+        return 1
+
+# assign labels to exisitng data frame based on target values
+def load_labelled_data(split_percentage):
+    df=get_data(file_path)
+    df=data_cleansing(df)
+    # add column label which is derived from target
+    df['label']=df.apply(lambda row: assign_labels(row), axis=1)
+    # remove label and target columns as they won't be a part of user input
+    input_data=df.drop(['label','target'], axis=1).values
+    output_data=df['label'].values
+    # define split point
+    split_point = int(len(input_data) * split_percentage)
+    # split data to train and test values
+    input_train=input_data[:split_point]
+    output_train=output_data[:split_point]
+    input_test=input_data[split_point:]
+    output_test=output_data[split_point:]
+
+    return input_train,output_train,input_test,output_test
+
 # UserData should be a list of user inputs
 # for eg [34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]
 def predict_data(UserData):
-    iris_X_train, iris_y_train, _, _ = load_data(file_path, split_percentage=0.99)
-    lda=LinearDiscriminantAnalysis()
-    lda.fit(iris_X_train,iris_y_train)
-    return lda.predict(list(UserData))
+    input_train, output_train, _, _ = load_labelled_data(split_percentage=0.99)
+    GNB=GaussianNB()
+    GNB.fit(input_train,output_train)
+    return GNB.predict(list(UserData))
 
-def calc_accuracy():
-    iris_X, iris_y, _, _ = load_data(file_path, split_percentage=1)
+# return the accurcy of each classifier
+def accuracy_analysis():
+    iris_X, iris_y, _, _ = load_labelled_data(split_percentage=1)
     classifiers = [KNeighborsClassifier(),
                    DecisionTreeClassifier(),
                    LinearDiscriminantAnalysis(),
-                   LogisticRegression(),
-                   GaussianNB(),
-                   SVC()]
+                   LogisticRegression(solver="lbfgs",max_iter=2000),
+                   GaussianNB()]
     classifier_accuracy_list = []
     for i, classifier in enumerate(classifiers):
         # split the dataset into 5 folds; then test the classifier against each fold one by one
-        accuracies = cross_val_score(classifier, iris_X, iris_y, cv=5)
+        accuracies = cross_val_score(classifier, iris_X, iris_y, cv=10)
         classifier_accuracy_list.append((accuracies.mean(), type(classifier).__name__))
     classifier_accuracy_list = sorted(classifier_accuracy_list, reverse=True)
     for item in classifier_accuracy_list:
         print(item[1], ':', item[0])
 
-def k_means_valuation():
-    df=get_data(file_path)
-    df=data_cleansing(df)
-    labels=np.array(["Positive","Negative"])
-    kmeans = KMeans(init='k-means++',n_clusters=5,n_init=10).fit(df)
-    kmeans.predict(df)
-    print(df)
-    print(kmeans.labels_)
-    return 0
-
-def Linear_SVC(X,y):
-    clf = svm.SVC(kernel='linear', C = 1.0)
-    clf.fit(X,y)
-    return 0
-    
-
 if __name__ == '__main__':
     file_path='processed.cleveland.data'
 
-    # Split the data into test and train parts
-    iris_X_train, iris_y_train, iris_X_test, iris_y_test = load_data(file_path, split_percentage=0.99)
+    accuracy_analysis()
 
-    # train a classifier
-    #knn = KNeighborsClassifier()
-    #knn.fit(iris_X_train, iris_y_train)
 
-    # predict the test set
-    #predictions = knn.predict(iris_X_test)
-
-    #lda=LinearDiscriminantAnalysis()
-    #lda.fit(iris_X_train,iris_y_train)
-    #predictions = lda.predict([[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]])
-    #predictions=lda.predict(iris_X_test)
-    #print("Actual: ")
-    #print(iris_y_test)
-
-    #print("Predictions: ")
-    #print(predictions)
-
-    #print("For data")
-    #print(iris_X_test)
-
-    #print("Accuracy")
-    #calc_accuracy()
-
-    #print("kmeans")
-    #k_means_valuation()
-    LSVC=LinearSVC()
-    LSVC.fit(iris_X_train,iris_y_train)
-    y_ans=LSVC.predict(iris_X_test)
-    
-    print("Actual")
-    print(y_ans)
-
-    print("expected")
-    print(iris_y_test)
-
-    print("LSVC Accuracy :", accuracy_score(iris_y_test,y_ans))
