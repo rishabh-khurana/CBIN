@@ -3,15 +3,25 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import json
+import task02
 
 
 def get_data(file):
-    usecols=['age','sex','chest_pain','blood_pressure','serum_cholesterol','blood_sugar','electrocardiographic_result','max_heart_rate','exercise_induced','old_peak','slope','major_vessels','thal','target']
+    usecols=['age','sex','chest_pain','blood_pressure','serum_cholesterol','blood_sugar',
+             'electrocardiographic_result','max_heart_rate','exercise_induced',
+             'old_peak','slope','major_vessels','thal','target']
     df = pd.read_csv(file,sep=',',header=None ,names=usecols)
+    
+<<<<<<< Updated upstream
+    df.replace('-', np.nan)
+=======
+    #df.replace('-', np.nan)
+>>>>>>> Stashed changes
     return df
 
 def scattered_json():
-    df = get_data("processed.cleveland.data")
+    df = t2.get_data("processed.cleveland.data")
+    df = t2.data_cleansing(df)
     scattered_json = [] 
     for col in df:
         if col != 'age' and col != 'sex':
@@ -74,6 +84,99 @@ def scattered_json():
             '''
     return scattered_json
 
+def stacked_json():
+    #load data
+    df = task02.get_data("processed.cleveland.data")
+    
+    #data cleansing
+    df = task02.data_cleansing(df)
+
+    #binning
+    df = binning(df,'age',3)
+    age_cat = df['age_bin'].unique()
+    age_cat.sort()
+    #print(age_cat)
+    to_bin = ['blood_pressure','serum_cholesterol','max_heart_rate','old_peak']
+    for x in to_bin:
+        df = binning(df,x,4)
+
+    # list of columns to stack
+    to_stack = ['chest_pain', 'blood_pressure_bin', 'serum_cholesterol_bin', 'blood_sugar',
+                'electrocardiographic_result', 'max_heart_rate_bin', 'exercise_induced', 'old_peak_bin', 'slope',
+                'major_vessels', 'thal']
+    
+    #replace values for proper labeling of stack
+    df['chest_pain'].replace([1,2,3,4],['typical angin','atypical angin','non-anginal pain','asymptomatic'], inplace=True)
+    df['blood_sugar'].replace([0,1],['no','yes'], inplace=True)
+    df['electrocardiographic_result'].replace([0,1,2],['normal','having ST-T wave abnormality','showing probable or definite leftventricular hypertrophy by Estes’ criteria'], inplace=True)
+    df['thal'].replace(['3.0','6.0','7.0'],['normal','fixed dafect','reversable defect'],inplace=True)
+
+    #prepare json data to be sent for grouped stack bar chart
+    scattered_data = [] 
+    for col in to_stack:
+        record = {}
+
+        chart ={}
+        chart['type'] = 'column'
+        record['chart'] = chart
+        
+        title ={}
+        title['text'] = col.replace("_bin","").replace("_"," ").title() + " grouped by Age and Gender"
+        record['title'] = title
+        
+        xAxis = {}
+        xAxis['categories'] = age_cat.tolist()
+        record['xAxis'] = xAxis
+        
+        yAxis = {}
+        yAxis['allowDecimals'] = 'false'
+        yAxis['min'] = 0
+        title = {}
+        title['text']= col.replace("_"," ").title()
+        yAxis['title'] = title
+        record['yAxis'] = yAxis
+
+        
+        series = []
+        #get cat
+        col_cat = df[col].unique()
+        #col_cat.sort()      
+        for cat in col_cat:
+            series_m ={}
+            series_m['name'] = str(cat).title()
+            
+            series_f = {}
+            series_f['name'] = str(cat).title()
+            
+            tot_per_age_m = []
+            tot_per_age_f = []
+            
+            for a_cat in age_cat:
+                tot_per_age_m.append(float(df['age'][(df['sex']==1)&(df['age_bin']==a_cat)&(df[col]==cat)].count()))
+
+                tot_per_age_f.append(float(df['age'][(df['sex']==0)&(df['age_bin']==a_cat)&(df[col]==cat)].count()))
+                
+            series_m['data'] = tot_per_age_m
+            series_m['stack'] = 'Male'
+
+            
+            series_f['data'] = tot_per_age_f
+            series_f['stack'] = 'Female'
+            
+            series.append(series_m)
+            series.append(series_f)
+        record['series'] = series
+        
+        json_record = json.dumps(record)
+        scattered_data.append(json_record)
+       
+    return scattered_data
+    
+
+    
+    
+    
+
 
 def binning(df,col,num_bins,labels=[]):
     '''
@@ -81,12 +184,11 @@ def binning(df,col,num_bins,labels=[]):
 
     optional labels parameter - if there is a defined definition for the label
     '''
-    print(len(labels))
+    #print(len(labels))
     hist,bin_edges = np.histogram(df[col],num_bins)
     #filter
     start = bin_edges[0]
     bins = list()
-    plt.figure(figsize=(10,7))
     
     #add bin to column
     df[str(col)+'_bin'] = None
@@ -105,6 +207,9 @@ def binning(df,col,num_bins,labels=[]):
                 df.loc[(df[col] >= start) & (df[col] < round(bin_edges[i])),[str(col)+'_bin']]= labels[i-1]
         start = round(bin_edges[i])
     return df
+
+
+#print(stacked_json())
 
 
 
