@@ -4,7 +4,7 @@ from sklearn.utils import shuffle
 from task02 import data_cleansing,get_data
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression,SGDClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC,LinearSVC
@@ -39,6 +39,7 @@ def assign_labels(row):
 def load_labelled_data(split_percentage):
     df=get_data(file_path)
     df=data_cleansing(df)
+    df=shuffle(df)
     # add column label which is derived from target
     df['label']=df.apply(lambda row: assign_labels(row), axis=1)
     # remove label and target columns as they won't be a part of user input
@@ -69,7 +70,8 @@ def accuracy_analysis():
                    DecisionTreeClassifier(),
                    LinearDiscriminantAnalysis(),
                    LogisticRegression(solver="lbfgs",max_iter=2000),
-                   GaussianNB()]
+                   GaussianNB(priors=None, var_smoothing=1e-05),
+                   SGDClassifier(max_iter=1000, tol=1e-3)]
     classifier_accuracy_list = []
     for i, classifier in enumerate(classifiers):
         # split the dataset into 5 folds; then test the classifier against each fold one by one
@@ -82,6 +84,16 @@ def accuracy_analysis():
 if __name__ == '__main__':
     file_path='processed.cleveland.data'
 
+    input_train, output_train, input_test, output_test = load_labelled_data(split_percentage=0.99)
+    GNB=GaussianNB(priors=None, var_smoothing=1e-09)
+
+
+    GNB.fit(input_train,output_train)
+
+    print("Expected")
+    print(output_test)
+
+    print("Actual")
+    print(GNB.predict(input_test))
+
     accuracy_analysis()
-
-
