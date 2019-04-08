@@ -70,7 +70,7 @@ def accuracy_analysis():
                    DecisionTreeClassifier(),
                    LinearDiscriminantAnalysis(),
                    LogisticRegression(solver="lbfgs",max_iter=2000),
-                   GaussianNB(priors=None, var_smoothing=1e-05),
+                   GaussianNB(priors=None, var_smoothing=1e-09),
                    SGDClassifier(max_iter=1000, tol=1e-3)]
     classifier_accuracy_list = []
     for i, classifier in enumerate(classifiers):
@@ -84,7 +84,7 @@ def accuracy_analysis():
 if __name__ == '__main__':
     file_path='processed.cleveland.data'
 
-    input_train, output_train, input_test, output_test = load_labelled_data(split_percentage=0.99)
+    input_train, output_train, input_test, output_test = load_labelled_data(split_percentage=0.995)
     GNB=GaussianNB(priors=None, var_smoothing=1e-09)
 
 
