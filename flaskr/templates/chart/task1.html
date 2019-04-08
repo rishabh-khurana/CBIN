@@ -1,4 +1,83 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Template 1</h1>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<nav class="task1">
+  <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+      {% for item in title %}
+        {% if loop.index == 1 %}
+          <a class="nav-item nav-link active" id="nav-chart{{ loop.index }}-tab" data-toggle="tab" href="#nav-chart{{ loop.index }}" role="tab" aria-controls="nav-home" aria-selected="true">{{ item }}</a>
+        {% else %}
+            <a class="nav-item nav-link" id="nav-chart{{ loop.index }}-tab" data-toggle="tab" href="#nav-chart{{ loop.index }}" role="tab" aria-controls="nav-home" aria-selected="true">{{ item }}</a>
+        {% endif %}
+      {% endfor %}
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  {% for chart in json %}
+    {% if loop.index == 1 %}
+      <div class="container tab-pane fade show active" id="nav-chart{{ loop.index }}" role="tabpanel" aria-labelledby="nav-chart{{ loop.index }}-tab"></div>
+    {% else %}
+      <div class="container tab-pane fade" id="nav-chart{{ loop.index }}" role="tabpanel" aria-labelledby="nav-chart{{ loop.index }}-tab"></div>
+    {% endif %}
+    <script>
+      Highcharts.setOptions(Highcharts.theme);
+      Highcharts.chart('nav-chart{{ loop.index }}', {
+        chart: {{ chart['chart']|safe }},
+        title: {{ chart['title']|safe }},
+        xAxis: {{ chart['xAxis']|safe }},
+        yAxis: {
+          allowDecimals: {{ chart['yAxis']['allowDecimals']|safe }},
+          min: {{ chart['yAxis']['min']|safe }},
+          title: {{ chart['yAxis']['title']|safe }},
+          stackLabels: {
+            enabled: true,
+            verticalAlign: 'bottom',
+            crop: false,
+            overflow: 'none',
+            y: 15,
+            formatter: function() {
+              return this.total + '<br>' + this.stack;
+            },
+            style: {
+              fontSize: '9px'
+            }
+          }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+          column: {
+              stacking: 'normal',
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            var stackName = this.series.userOptions.stack;
+
+            return '<b>Stack name: </b>' + stackName + '<br/><b>' + this.x + '</b><br/>' +
+              this.series.name + ': ' + this.y + '<br/>' +
+              'Total: ' + this.point.stackTotal;
+          }
+        },
+        series: {{ chart['series']|safe }}
+    });
+    </script>
+  {% endfor %}
+</div>
+
+  
+
+
+
+
 {% endblock %}
