@@ -3,7 +3,7 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-<nav class="task1">
+<nav class="nav-t1">
   <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
       {% for item in title %}
         {% if loop.index == 1 %}
@@ -14,7 +14,7 @@
       {% endfor %}
   </div>
 </nav>
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content my-tab" id="nav-tabContent">
   {% for chart in json %}
     {% if loop.index == 1 %}
       <div class="container tab-pane fade show active" id="nav-chart{{ loop.index }}" role="tabpanel" aria-labelledby="nav-chart{{ loop.index }}-tab"></div>
