@@ -37,6 +37,7 @@ def assign_labels(row):
 
 # assign labels to exisitng data frame based on target values
 def load_labelled_data(split_percentage):
+    file_path='processed.cleveland.data'
     df=get_data(file_path)
     df=data_cleansing(df)
     df=shuffle(df)
@@ -56,12 +57,12 @@ def load_labelled_data(split_percentage):
     return input_train,output_train,input_test,output_test
 
 # UserData should be a list of user inputs
-# for eg [34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]
+# for eg [[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]]
 def predict_data(UserData):
     input_train, output_train, _, _ = load_labelled_data(split_percentage=0.99)
     GNB=GaussianNB()
     GNB.fit(input_train,output_train)
-    return GNB.predict(list(UserData))
+    print(GNB.predict(UserData).tolist())
 
 # return the accurcy of each classifier
 def accuracy_analysis():
