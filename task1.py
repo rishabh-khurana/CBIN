@@ -12,16 +12,12 @@ def get_data(file):
              'old_peak','slope','major_vessels','thal','target']
     df = pd.read_csv(file,sep=',',header=None ,names=usecols)
     
-<<<<<<< Updated upstream
     df.replace('-', np.nan)
-=======
-    #df.replace('-', np.nan)
->>>>>>> Stashed changes
     return df
 
 def scattered_json():
-    df = t2.get_data("processed.cleveland.data")
-    df = t2.data_cleansing(df)
+    df = task02.get_data("processed.cleveland.data")
+    df = task02.data_cleansing(df)
     scattered_json = [] 
     for col in df:
         if col != 'age' and col != 'sex':
@@ -95,6 +91,21 @@ def stacked_json():
     df = binning(df,'age',3)
     age_cat = df['age_bin'].unique()
     age_cat.sort()
+
+    #rename columns for labelling
+    attribute_title ={}
+    attribute_title['chest_pain'] = 'Chest pain type'
+    attribute_title['blood_pressure_bin'] = 'Resting blood pressure'
+    attribute_title['serum_cholesterol_bin'] = 'Serum cholestoral in mg/dl'
+    attribute_title['blood_sugar'] = 'fasting blood sugar > 120 mg/dl'
+    attribute_title['electrocardiographic_result'] = 'Resting electrocardiographic results'
+    attribute_title['max_heart_rate_bin'] = 'Maximum heart rate achieved'
+    attribute_title['exercise_induced'] = 'Exercise induced angina'
+    attribute_title['old_peak_bin'] = 'Oldpeak'
+    attribute_title['slope'] = 'Slope of the peak exercise ST segment'
+    attribute_title['major_vessels'] = 'Number of major vessels (0-3) colored by flourosopy'
+    attribute_title['thal'] = 'Thalassemia'
+
     #print(age_cat)
     to_bin = ['blood_pressure','serum_cholesterol','max_heart_rate','old_peak']
     for x in to_bin:
@@ -121,7 +132,7 @@ def stacked_json():
         record['chart'] = chart
         
         title ={}
-        title['text'] = col.replace("_bin","").replace("_"," ").title() + " grouped by Age and Gender"
+        title['text'] = attribute_title[col].title() + " grouped by Age and Gender"
         record['title'] = title
         
         xAxis = {}
@@ -132,7 +143,7 @@ def stacked_json():
         yAxis['allowDecimals'] = 'false'
         yAxis['min'] = 0
         title = {}
-        title['text']= col.replace("_"," ").title()
+        title['text']= attribute_title[col].title()
         yAxis['title'] = title
         record['yAxis'] = yAxis
 
