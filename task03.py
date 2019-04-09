@@ -62,7 +62,8 @@ def predict_data(UserData):
     input_train, output_train, _, _ = load_labelled_data(split_percentage=0.99)
     GNB=GaussianNB()
     GNB.fit(input_train,output_train)
-    print(GNB.predict(UserData).tolist())
+    #print(GNB.predict(UserData).tolist())
+    return (GNB.predict(UserData).tolist())
 
 # return the accurcy of each classifier
 def accuracy_analysis():
