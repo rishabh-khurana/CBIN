@@ -1,5 +1,6 @@
 import functools
 import json
+import ast
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -7,6 +8,7 @@ from flask import (
 
 from flaskr.db import get_db
 from flaskr.task1 import *
+from flaskr.task3 import *
 
 bp = Blueprint('main', __name__, url_prefix='/main')
     
@@ -25,6 +27,34 @@ def task1():
 def task2():
     return render_template('chart/task2.html')
     
-@bp.route('/task3', methods=['GET'])
+@bp.route('/task3', methods=['GET', 'POST'])
 def task3():
-    return render_template('chart/task3.html')
+    if request.method == 'POST':
+        input = request.form['userInput']
+        print("Input: ", input)
+        print("Type: ", type(input))
+        input = ast.literal_eval(input)
+        # input = [n.strip() for n in input]
+        print("Parsed Type: ", type(input))
+        result = predict_data(input)
+        print("Result: ", result)
+        response = []
+        for r in result:
+            print(r)
+            if r == 0:
+                response.append("Healthy")
+                
+            else:
+                response.append("Infected")
+                    
+        return render_template('chart/task3.html', result=response, input=input)
+    else:
+        return render_template('chart/task3.html')
+    
+
+
+
+
+
+
+

@@ -1,4 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Template 3</h1>
+<h2>Predict Heart Disease</h2>
+{% if input %}
+<form method="post">
+  <div class="form-group">
+    <label for="userInput" class="form-label">User Input</label>
+    <textarea class="form-control" name="userInput" id="userInput" rows="3" required>{{ input }}</textarea>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Predict</button>
+</form>
+<br/>
+<h2>Result: </h2>
+<p>{{ result }}</p>
+{% else %}
+<form method="post">
+  <div class="form-group">
+    <label for="userInput" class="form-label">User Input</label>
+    <textarea class="form-control" name="userInput" id="userInput" rows="3" required 
+    placeholder="[[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]]"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Predict</button>
+</form>
+{% endif %}
 {% endblock %}
