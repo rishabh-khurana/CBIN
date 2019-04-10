@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import shuffle
+from sklearn.metrics import accuracy_score
 from task02 import data_cleansing,get_data
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.tree import DecisionTreeClassifier
@@ -8,7 +9,10 @@ from sklearn.linear_model import LogisticRegression,SGDClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC,LinearSVC
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
 import numpy as np
+from sklearn.model_selection import ShuffleSplit
 
 def load_data(file_path,split_percentage):
     #use get_data method
@@ -63,6 +67,7 @@ def predict_data(UserData):
     GNB=GaussianNB()
     GNB.fit(input_train,output_train)
     #print(GNB.predict(UserData).tolist())
+    # return values are either [0] or [1] depending if person is healthy or infected
     return (GNB.predict(UserData).tolist())
 
 # return the accurcy of each classifier
@@ -82,20 +87,69 @@ def accuracy_analysis():
     classifier_accuracy_list = sorted(classifier_accuracy_list, reverse=True)
     for item in classifier_accuracy_list:
         print(item[1], ':', item[0])
+    return classifier_accuracy_list
+
+def plot_learning_curve(estimator, title, X, y, ylim=(0.7, 1.01), cv=None,
+                        n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
+    plt.figure()
+    plt.title(title)
+    if ylim is not None:
+        plt.ylim(*ylim)
+    # assign labels to coordinates
+    plt.xlabel("Training examples")
+    plt.ylabel("Score")
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+    plt.grid()
+
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                     train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+             label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+             label="Cross-validation score")
+
+    plt.legend(loc="best")
+    return plt
 
 if __name__ == '__main__':
     file_path='processed.cleveland.data'
 
-    input_train, output_train, input_test, output_test = load_labelled_data(split_percentage=0.995)
-    GNB=GaussianNB(priors=None, var_smoothing=1e-09)
+    input_train, output_train, input_test, output_test = load_labelled_data(split_percentage=0.90)
+    #GNB=GaussianNB(priors=None, var_smoothing=1e-09)
 
 
-    GNB.fit(input_train,output_train)
+    #GNB.fit(input_train,output_train)
 
-    print("Expected")
-    print(output_test)
+    #print("Expected")
+    #print(output_test)
 
-    print("Actual")
-    print(GNB.predict(input_test))
+    #print("Actual")
+    #print(GNB.predict(input_test))
 
-    accuracy_analysis()
+    # lda = LinearDiscriminantAnalysis()
+    # lda.fit(input_train, output_train)
+    # predicted = lda.predict(input_test)
+    # full_accuracy = accuracy_score(output_test, predicted)
+    # accuracies = cross_val_score(lda, input_train, output_train, cv=10)
+    # print(accuracies.mean())
+
+    # reduction = LinearDiscriminantAnalysis(n_components=1)
+    # X1red = reduction.fit_transform(input_train, output_train)
+    # X2red = reduction.transform(input_test)
+    # lda.fit(X1red, output_train)
+    # predicted = lda.predict(X2red)
+    # reduced_accuracy = accuracy_score(predicted, output_test)
+    # print(reduced_accuracy)
+    estimator = GaussianNB()
+    title = "Learning Curves (Naive Bayes)"
+    cv = ShuffleSplit(n_splits=100, test_size=0.2, random_state=0)
+    plot_learning_curve(estimator, title, input_train, output_train, ylim=(0.7, 1.01), cv=cv, n_jobs=4)
+    plt.show()
