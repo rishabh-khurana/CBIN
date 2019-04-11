@@ -4,10 +4,16 @@
       <w>colnames</w>
       <w>dataframe</w>
       <w>electrocardiographic</w>
+      <w>fluoroscopy</w>
       <w>gini</w>
+      <w>highcharts</w>
       <w>liblinear</w>
       <w>minc</w>
+      <w>oldpeak</w>
+      <w>squarified</w>
       <w>thal</w>
+      <w>thalassemia</w>
+      <w>treemap</w>
     </words>
   </dictionary>
 </component>

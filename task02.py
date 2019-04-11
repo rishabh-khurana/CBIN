@@ -1,7 +1,6 @@
 import pandas as pd
-# import matplotlib.pyplot as plt
+import json
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import RFE
 
 
 def get_data(filename):
@@ -41,8 +40,62 @@ def feature_importance():
     return importance_scores
 
 
-if __name__ == '__main__':
-    feature_scores = feature_importance()
+def treemap_json():
+    data = feature_importance()
+    treemap_data = []
 
-    for row in feature_scores:
-        print(row)
+    labels = {
+        'age': 'Age',
+        'sex': 'Sex',
+        'chest_pain': 'Chest Pain Type',
+        'blood_pressure': 'Resting Blood Pressure',
+        'serum_cholesterol': 'Serum Cholesterol',
+        'blood_sugar': 'Fasting Blood Sugar',
+        'electrocardiographic_result': 'Resting Electrocardiographic Results',
+        'max_heart_rate': 'Maximum Heart Rate',
+        'exercise_induced': 'Exercise Induced Angina',
+        'old_peak': 'Oldpeak',
+        'slope': 'Slope of Peak Exercise ST Segment',
+        'major_vessels': 'Major Vessels Coloured by Fluoroscopy',
+        'thal': 'Thalassemia'
+    }
+
+    score_list = []
+    cv = len(data)
+    for d in data:
+        score_list.append({
+            'name': labels[d[0]],
+            'value': f'{int(10000 * d[1]) / 100}%',
+            'colorValue': cv
+        })
+
+        cv -= 1
+
+    # json for highcharts implementation
+    record = {
+        'title': {
+            'text': 'Attributes Treemap based on Importance to Model'
+        },
+
+        'colorAxis': {
+            'minColor': '#FFFFFF',
+            'maxColor': '#5522FF'
+        },
+
+        'series': [{
+            'type': 'treemap',
+            'layoutAlgorithm': 'squarified',
+            'data': score_list
+        }]
+    }
+
+    json_record = json.dumps(record)
+    treemap_data.append(json_record)
+
+    return treemap_data
+
+
+# if __name__ == '__main__':
+#     feature_scores = treemap_json()
+#
+#     print(feature_scores)
