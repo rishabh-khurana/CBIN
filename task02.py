@@ -33,6 +33,14 @@ def feature_importance():
     # target attribute
     y = df.target
 
+    # # hyperparameter tuning
+    # ht = hyperparameter_tuning(x, y)
+    # clf = RandomForestClassifier(n_estimators=ht['n_estimators'],
+    #                              max_depth=ht['max_depth'],
+    #                              min_samples_leaf=ht['min_samples_leaf'],
+    #                              min_samples_split=ht['min_samples_split'],
+    #                              criterion='gini')
+
     # fit random forest classifier
     clf = RandomForestClassifier(n_estimators=400, max_depth=20, min_samples_leaf=4, min_samples_split=5)
     clf.fit(x, y)
@@ -41,6 +49,24 @@ def feature_importance():
     importance_scores = sorted(zip(x.columns, clf.feature_importances_), key=lambda k: k[1], reverse=True)
 
     return importance_scores
+
+
+def hyperparameter_tuning(x, y):
+    param_grid = {
+        'max_depth': [20, 30, 40, 50],
+        'min_samples_leaf': [4],
+        'min_samples_split': [5],
+        'n_estimators': [200, 400, 600, 800, 1000]
+    }
+
+    clf = RandomForestClassifier()
+
+    # 3-fold cross validation for each combination of parameters
+    clf_random = GridSearchCV(estimator=clf, param_grid=param_grid, cv=3, verbose=2, iid=False)
+    clf_random.fit(x, y)
+
+    print(clf_random.best_params_)
+    return clf_random.best_params_
 
 
 def treemap_json():
