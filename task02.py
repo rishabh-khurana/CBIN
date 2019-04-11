@@ -1,8 +1,7 @@
 import pandas as pd
 import json
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import GridSearchCV
 
 
 def get_data(filename):

@@ -67,7 +67,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="15" />
     <option name="y" value="30" />
     <option name="width" value="1890" />
@@ -107,7 +107,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.task02">
+  <component name="RunManager" selected="Python.task02 (1)">
     <configuration name="start" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="CBIN" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -215,9 +215,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.task02 (1)" />
         <item itemvalue="Python.task02" />
         <item itemvalue="Python.task1" />
-        <item itemvalue="Python.task02 (1)" />
         <item itemvalue="Python.start" />
         <item itemvalue="Python.test" />
       </list>
