@@ -3,7 +3,10 @@
     <words>
       <w>colnames</w>
       <w>dataframe</w>
+      <w>electrocardiographic</w>
+      <w>gini</w>
       <w>liblinear</w>
+      <w>minc</w>
       <w>thal</w>
     </words>
   </dictionary>
