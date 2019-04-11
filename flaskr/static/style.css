@@ -3,9 +3,9 @@
 
 /* Color Wheel */
 :root {
-  --header: #607D8B;
-  --body-text: black; 
-  --highlight: #2196F3; 
+  --header: #7BCBC3;
+  --body: black; 
+  --highlight: #2B8CBE; 
 }
 
 body {
@@ -81,4 +81,13 @@ a {
 
 .form-label {
   font-size: 16pt;
+}
+
+.nav-tabs .active {
+  color: var(--highlight)!important;
+  font-weight: bold !important;
+}
+
+.notactive {
+  color: var(--body) !important;
 }

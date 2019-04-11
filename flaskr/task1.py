@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import json
 import task02
 
+color1 = ['#F7FCB9', '#CCEBC5', '#7BCBC3', '#2B8CBE']
+color3 = ['#ECE7F2', '#A6BCDB', '#3690C0', '#035A8D']
+color2 = ['#FFEDA0', '#FEB24C', '#FC4E29', '#BD0026']
+
+colors = ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58']
 
 def get_data(file):
     usecols=['age','sex','chest_pain','blood_pressure','serum_cholesterol','blood_sugar',
@@ -140,7 +145,8 @@ def stacked_json():
         series = []
         #get cat
         col_cat = df[col].unique()
-        #col_cat.sort()      
+        #col_cat.sort()   
+        i = 0   
         for cat in col_cat:
             series_m ={}
             series_m['name'] = str(cat).title()
@@ -158,10 +164,15 @@ def stacked_json():
                 
             series_m['data'] = tot_per_age_m
             series_m['stack'] = 'Male'
-
             
             series_f['data'] = tot_per_age_f
             series_f['stack'] = 'Female'
+            series_f['linkedTo'] = 'previous'
+            
+            if i < len(color1):
+                series_f['color'] = color1[i]
+                series_m['color'] = color1[i]
+                i += 1
             
             series.append(series_m)
             series.append(series_f)
