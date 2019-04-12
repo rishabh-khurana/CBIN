@@ -61,10 +61,9 @@ def hyperparameter_tuning(x, y):
     clf = RandomForestClassifier()
 
     # 3-fold cross validation for each combination of parameters
-    clf_random = GridSearchCV(estimator=clf, param_grid=param_grid, cv=3, verbose=2, iid=False)
+    clf_random = GridSearchCV(estimator=clf, param_grid=param_grid, cv=3, iid=False)
     clf_random.fit(x, y)
 
-    print(clf_random.best_params_)
     return clf_random.best_params_
 
 
@@ -94,7 +93,7 @@ def treemap_json():
     for d in data:
         score_list.append({
             'name': labels[d[0]],
-            'value': f'{int(10000 * d[1]) / 100}%',
+            'value': round(100 * d[1], 4),
             'colorValue': cv
         })
 
@@ -124,8 +123,8 @@ def treemap_json():
     return treemap_data
 
 
-if __name__ == '__main__':
-    feature_scores = treemap_json()
-
-    for row in json.loads(feature_scores[0])['series'][0]['data']:
-        print(f'{row["name"]}: {row["value"]}')
+# if __name__ == '__main__':
+#     feature_scores = treemap_json()
+#
+#     for row in json.loads(feature_scores[0])['series'][0]['data']:
+#         print(f'{row["name"]}: {row["value"]}')
