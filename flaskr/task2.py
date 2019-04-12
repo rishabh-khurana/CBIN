@@ -80,7 +80,7 @@ def treemap_json():
     
     colorAxis = {}
     colorAxis['minColor'] = "#FFFFFF"
-    colorAxis['maxColor'] = "#5522FF"
+    colorAxis['maxColor'] = "#7BCBC3"
     record['colorAxis'] = colorAxis
     
     seriesList = []
@@ -93,7 +93,6 @@ def treemap_json():
     
     record['series'] = seriesList
     
-    # json_record = json.dumps(record)
     treemap_data.append(record)
 
     return treemap_data

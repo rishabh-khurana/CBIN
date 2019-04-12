@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Task 2</h1>
+<h1>Treemap Chart</h1>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
 
 {% for chart in json %}
 <div class="container" id="chart-container-{{ loop.index }}"></div>
