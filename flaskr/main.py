@@ -48,8 +48,8 @@ def task3():
                 
             else:
                 response.append("Infected")
-                    
-        return render_template('chart/task3.html', result=response, input=input)
+        data = build_json()    
+        return render_template('chart/task3.html', result=response, input=input, json=data)
     else:
         return render_template('chart/task3.html')
     

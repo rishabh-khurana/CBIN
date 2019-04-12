@@ -122,7 +122,7 @@ def plot_learning_curve(estimator, title, X, y, ylim=(0.7, 1.01), cv=None,
     plt.legend(loc="best")
     return plt
 
-def build_json(estimator,n_jobs=4,train_sizes=np.linspace(.1, 1.0, 5)):
+def build_json(estimator=GaussianNB(),n_jobs=4,train_sizes=np.linspace(.1, 1.0, 5)):
     X, y, _, _ = load_labelled_data(split_percentage=0.90)
     cv = ShuffleSplit(n_splits=100, test_size=0.2, random_state=0)
     train_sizes, train_scores, test_scores = learning_curve(

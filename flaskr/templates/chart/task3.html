@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Predict Heart Disease</h2>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
 {% if input %}
 <form method="post">
   <div class="form-group">
@@ -22,4 +24,15 @@
   <button type="submit" class="btn btn-primary mb-2">Predict</button>
 </form>
 {% endif %}
+{% for chart in json %}
+<div class="container" id="chart-container-{{ loop.index }}"></div>
+<script>
+  Highcharts.chart('chart-container-{{ loop.index }}', {
+    title: {{ chart['title']|safe }},
+    series: {{ chart['series']|safe }},
+    yAxis: {{ chart['yAxis']|safe }},
+    xAxis: {{ chart['xAxis']|safe }}
+});
+</script>
+{% endfor %}
 {% endblock %}
