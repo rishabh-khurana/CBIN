@@ -8,6 +8,7 @@ from flask import (
 
 from flaskr.db import get_db
 from flaskr.task1 import *
+from flaskr.task2 import *
 from flaskr.task3 import *
 
 bp = Blueprint('main', __name__, url_prefix='/main')
@@ -25,7 +26,8 @@ def task1():
     
 @bp.route('/task2', methods=['GET'])
 def task2():
-    return render_template('chart/task2.html')
+    data = treemap_json()
+    return render_template('chart/task2.html', json=data)
     
 @bp.route('/task3', methods=['GET', 'POST'])
 def task3():

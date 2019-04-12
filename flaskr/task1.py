@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import json
 import task02
 
-color1 = ['#F7FCB9', '#CCEBC5', '#7BCBC3', '#2B8CBE']
+color1 = ['#F2FAEB', '#CCEBC5', '#7BCBC3', '#2B8CBE']
 color3 = ['#ECE7F2', '#A6BCDB', '#3690C0', '#035A8D']
 color2 = ['#FFEDA0', '#FEB24C', '#FC4E29', '#BD0026']
 
