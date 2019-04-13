@@ -139,11 +139,13 @@ def build_json(estimator=GaussianNB(),n_jobs=4,train_sizes=np.linspace(.1, 1.0, 
     obj['title']=title
 
     xAxis={}
+    title={}
     title['text']='Accuracy'
     xAxis['title']=title
     obj['xAxis']=xAxis
 
     yAxis={}
+    title={}
     title['text']='Iterations'
     yAxis['title']=title
     obj['yAxis']=yAxis
