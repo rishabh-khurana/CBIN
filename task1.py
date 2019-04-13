@@ -120,7 +120,7 @@ def stacked_json():
     df['chest_pain'].replace([1,2,3,4],['typical angin','atypical angin','non-anginal pain','asymptomatic'], inplace=True)
     df['blood_sugar'].replace([0,1],['no','yes'], inplace=True)
     df['electrocardiographic_result'].replace([0,1,2],['normal','having ST-T wave abnormality','showing probable or definite leftventricular hypertrophy by Estes’ criteria'], inplace=True)
-    df['thal'].replace(['3.0','6.0','7.0'],['normal','fixed dafect','reversable defect'],inplace=True)
+    df['thal'].replace([3.0,6.0,7.0],['normal','fixed dafect','reversable defect'],inplace=True)
 
     #prepare json data to be sent for grouped stack bar chart
     scattered_data = [] 

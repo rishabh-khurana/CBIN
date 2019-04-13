@@ -1,4 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Template 2</h1>
+<h1>Treemap Chart</h1>
+
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+
+{% for chart in json %}
+<div class="container" id="chart-container-{{ loop.index }}"></div>
+<script>
+  Highcharts.chart('chart-container-{{ loop.index }}', {
+    title: {{ chart['title']|safe }},
+    series: {{ chart['series']|safe }},
+    colorAxis: {{ chart['colorAxis']|safe }}
+});
+</script>
+{% endfor %}
 {% endblock %}

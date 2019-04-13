@@ -65,32 +65,35 @@ def treemap_json():
     for d in data:
         score_list.append({
             'name': labels[d[0]],
-            'value': f'{int(10000 * d[1]) / 100}%',
+            'value': (int(10000 * d[1]) / 100),
             'colorValue': cv
         })
 
         cv -= 1
 
     # json for highcharts implementation
-    record = {
-        'title': {
-            'text': 'Attributes Treemap based on Importance to Model'
-        },
-
-        'colorAxis': {
-            'minColor': '#FFFFFF',
-            'maxColor': '#5522FF'
-        },
-
-        'series': [{
-            'type': 'treemap',
-            'layoutAlgorithm': 'squarified',
-            'data': score_list
-        }]
-    }
-
-    json_record = json.dumps(record)
-    treemap_data.append(json_record)
+    record = {}
+    
+    title = {}
+    title['text'] = 'Attributes Treemap based on Importance to Model'
+    record['title'] = title
+    
+    colorAxis = {}
+    colorAxis['minColor'] = "#FFFFFF"
+    colorAxis['maxColor'] = "#7BCBC3"
+    record['colorAxis'] = colorAxis
+    
+    seriesList = []
+    series = {}
+    series['type'] = "treemap"
+    series['layoutAlgorithm'] = "squarified"
+    series['data'] = score_list
+    
+    seriesList.append(series)
+    
+    record['series'] = seriesList
+    
+    treemap_data.append(record)
 
     return treemap_data
 
