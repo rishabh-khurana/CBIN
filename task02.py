@@ -84,30 +84,28 @@ def treemap_json():
         'exercise_induced': 'Exercise Induced Angina',
         'old_peak': 'Oldpeak',
         'slope': 'Slope of Peak Exercise ST Segment',
-        'major_vessels': 'Number of Major Vessels',
+        'major_vessels': 'Major Vessels Coloured by Fluoroscopy',
         'thal': 'Thalassemia'
     }
 
     score_list = []
-    cv = len(data)
+
     for d in data:
         score_list.append({
             'name': labels[d[0]],
             'value': round(100 * d[1], 4),
-            'colorValue': cv
+            'colorValue': round(100 * d[1], 4)
         })
-
-        cv -= 1
 
     # json response for highcharts implementation
     record = {
         'title': {
-            'text': 'Attributes Treemap based on Importance to Model'
+            'text': 'Attributes Treemap based on Relative Importance to Model'
         },
 
         'colorAxis': {
             'minColor': '#FFFFFF',
-            'maxColor': '#5522FF'
+            'maxColor': '#7BCBC3'
         },
 
         'series': [{
@@ -117,8 +115,7 @@ def treemap_json():
         }]
     }
 
-    json_record = json.dumps(record)
-    treemap_data.append(json_record)
+    treemap_data.append(record)
 
     return treemap_data
 
