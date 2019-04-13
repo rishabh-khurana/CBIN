@@ -32,24 +32,19 @@ def task2():
 @bp.route('/task3', methods=['GET', 'POST'])
 def task3():
     if request.method == 'POST':
-        input = request.form['userInput']
-        print("Input: ", input)
-        print("Type: ", type(input))
-        input = ast.literal_eval(input)
-        # input = [n.strip() for n in input]
-        print("Parsed Type: ", type(input))
+        input = []
+        concat = []
+        print(request.form)
+        for item in request.form:
+            concat.append(float(request.form[item]))   
+        # print("Parsed Type: ", type(input))
+        input.append(concat)
         result = predict_data(input)
-        print("Result: ", result)
-        response = []
-        for r in result:
-            print(r)
-            if r == 0:
-                response.append("Healthy")
-                
-            else:
-                response.append("Infected")
+        if result == 0: response = "Healthy"
+        else: response = "Infected"
         data = build_json()    
-        return render_template('chart/task3.html', result=response, input=input, json=data)
+        # return render_template('chart/task3.html')
+        return render_template('chart/task3.html', result=response, json=data)
     else:
         return render_template('chart/task3.html')
     

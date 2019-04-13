@@ -70,7 +70,7 @@ def predict_data(UserData):
     GNB.fit(input_train,output_train)
     #print(GNB.predict(UserData).tolist())
     # return values are either [0] or [1] depending if person is healthy or infected
-    return (GNB.predict(UserData).tolist())
+    return (GNB.predict(UserData))
 
 # return the accurcy of each classifier
 def accuracy_analysis():

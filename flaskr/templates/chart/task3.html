@@ -3,27 +3,43 @@
 <h2>Predict Heart Disease</h2>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
-{% if input %}
+<p>Example: [[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]]</p>
 <form method="post">
   <div class="form-group">
-    <label for="userInput" class="form-label">User Input</label>
-    <textarea class="form-control" name="userInput" id="userInput" rows="3" required>{{ input }}</textarea>
+    <label for="age">Age</label>
+    <input type="text" class="form-control" name="age" value="{{ age }}" id="age" required placeholder="Enter age">
+    <label for="sex">Sex</label>
+    <input type="text" class="form-control" name="sex" value="{{ sex }}"  id="sex" required placeholder="1: Male, 0: Female">
+    <label for="chest">Chest Pain Type</label>
+    <input type="text" class="form-control" name="chest" value="{{ chest }}"  id="chest" required placeholder="1=typical angin,2=atypical angina,3=non-anginal pain,4=asymptomatic">
+    <label for="bp">Resting Blood Pressure</label>
+    <input type="text" class="form-control" name="bp" value="{{ bp }}"  id="bp" required placeholder="Enter blood pressure">
+    <label for="cholestoral">Serum Cholestoral (mg/dl)</label>
+    <input type="text" class="form-control" name="cholestoral" value="{{ cholestoral }}"  id="cholestoral" required placeholder="Enter serum cholestoral">
+    <label for="bs">Fasting Blood Sugar</label>
+    <input type="text" class="form-control" name="bs" value="{{ bs }}"  id="bs" required placeholder="Enter blood sugar">
+    <label for="electro">Resting Electrocardiographic Results</label>
+    <input type="text" class="form-control" name="electro" value="{{ electro }}"  id="electro" required placeholder="0=normal,1=having ST-T wave abnormality,2=showing probable or definite left
+ventricular hypertrophy)">
+    <label for="hr">Maximum Heart Rate</label>
+    <input type="text" class="form-control" name="hr" value="{{ hr }}"  id="hr" required placeholder="Enter maximum heart rate">
+    <label for="exercise">Exercise Induced Angina</label>
+    <input type="text" class="form-control" name="exercise" value="{{ exercise }}"  id="exercise" required placeholder="Enter exercise induced angina">
+    <label for="st">ST Depression Induced By Exercise Relative To Rest</label>
+    <input type="text" class="form-control" name="st" value="{{ st }}"  id="st" required placeholder="Enter oldpeak">
+    <label for="slope">Slope Of The Peak Exercise ST Segment</label>
+    <input type="text" class="form-control" name="slope" value="{{ slope }}"  id="slope" required placeholder="Enter slope of peak exercise">
+    <label for="vessels">Number Of Major Vessels (0-3) Colored By Flourosopy</label>
+    <input type="text" class="form-control" name="vessels" value="{{ vessels }}"  id="vessels" required placeholder="Enter number of major vessels">
+    <label for="thal">Thalassemia</label>
+    <input type="text" class="form-control" name="thal" value="{{ thal }}"  id="thal" required placeholder="3 = normal; 6 = fixed defect; 7 = reversable defect">
   </div>
   <button type="submit" class="btn btn-primary mb-2">Predict</button>
 </form>
 <br/>
+{% if result %}
 <h2>Result: </h2>
 <p>{{ result }}</p>
-{% else %}
-<form method="post">
-  <div class="form-group">
-    <label for="userInput" class="form-label">User Input</label>
-    <textarea class="form-control" name="userInput" id="userInput" rows="3" required 
-    placeholder="[[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]]"></textarea>
-  </div>
-  <button type="submit" class="btn btn-primary mb-2">Predict</button>
-</form>
-{% endif %}
 {% for chart in json %}
 <div class="container" id="chart-container-{{ loop.index }}"></div>
 <script>
@@ -35,4 +51,5 @@
 });
 </script>
 {% endfor %}
+{% endif %}
 {% endblock %}
