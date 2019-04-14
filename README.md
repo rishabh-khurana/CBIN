@@ -11,8 +11,6 @@ age and sex. The statistics are visualised using group stacked bar chart and his
 
 3) Predict if a person has heart disease or not based on users input in a web form. The prediction is mainly based on naive baiyes classifier with some optimisation to tune up the accuracy and to reduce overfitting. The accurracy is also projected in the line graph below the prediction results.
 
-
-
 ## Getting Started
 
 This is set up with only Flask 1.0.2 and SQLite
@@ -26,11 +24,18 @@ flaskr/static for any css, js, img files (can split further into subfolder)
 
 flaskr/templates for html files (those used for corresponding .py is in their subfolder)
 
+## To install all packages
+
+```
+$ pip install -r requirements.txt
+
+```
+
 ## How To Run Code
 Note:Make sure you are at project directory a.k.a CBIN NOT flaskr
 
 ```
-$ python start.py
+> python start.py
 
 ```
 
