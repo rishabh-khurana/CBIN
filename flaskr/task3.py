@@ -22,16 +22,16 @@ def load_data(file_path,split_percentage):
     df=data_cleansing(df)
     # the shuffle function alters the data seq
     df = shuffle(df)
-    iris_x = df.drop('target', axis=1).values
-    iris_y = df['target'].values
+    input_val = df.drop('target', axis=1).values
+    output_val = df['target'].values
 
-    split_point = int(len(iris_x) * split_percentage)
-    iris_X_train = iris_x[:split_point]
-    iris_y_train = iris_y[:split_point]
-    iris_X_test = iris_x[split_point:]
-    iris_y_test = iris_y[split_point:]
+    split_point = int(len(input_val) * split_percentage)
+    input_train = input_val[:split_point]
+    output_train = output_val[:split_point]
+    input_test = input_val[split_point:]
+    output_test = output_val[split_point:]
 
-    return iris_X_train, iris_y_train, iris_X_test, iris_y_test
+    return input_train, output_train, input_test, output_test
 
 # 0 incurrs person is healthy
 # 1 incurrs person is infected 
