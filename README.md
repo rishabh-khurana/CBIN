@@ -20,14 +20,44 @@ Make sure you are at project directory a.k.a CBIN NOT flaskr
 
 ```
 $ python start.py
+
 ```
+
+Note: Incase above command throws an error 
+You can use the following set of commands for running the app:
+
+For Linux and Mac:
+
+```
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask run
+
+```
+
+For Windows:
+
+```
+set FLASK_APP=flaskr
+set FLASK_ENV=development
+flask run
+
+```
+
 The app will be served on localhost:5000
 
-## What To Play With ATM
-Go to localhost:5000/chart/index 
+## How To Run Task 3 Predict Function
 
-Enter 1 for Template Id field
+The task3.py file is equipped with predict_data() function
 
-Any text for Random Text field
+run the predict_data() with predict_data(UserData) argument after running task3.py as a module.
 
-=> Direct to Template 1 page
+```
+>> predict_data([[34.0,1.0,1.0,118.0,182.0,0.0,2.0,174.0,0.0,0.0,1.0,0.0,3.0]])
+[1]
+```
+The function will return a value which signifies person has disease or not.
+
+[1]=Person has heart disease
+[0]=Person is disease free
+
