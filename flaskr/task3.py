@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
-from task02 import data_cleansing,get_data
+from flaskr.task2 import data_cleansing, get_data
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression,SGDClassifier
