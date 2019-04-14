@@ -3,7 +3,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import json
-import task02
+from flaskr.task2 import data_cleansing, get_data
 
 color1 = ['#F2FAEB', '#CCEBC5', '#7BCBC3', '#2B8CBE']
 color3 = ['#ECE7F2', '#A6BCDB', '#3690C0', '#035A8D']
@@ -21,8 +21,8 @@ def get_data(file):
     return df
 
 def scattered_json():
-    df = t2.get_data("processed.cleveland.data")
-    df = t2.data_cleansing(df)
+    df = get_data("processed.cleveland.data")
+    df = data_cleansing(df)
     scattered_json = [] 
     for col in df:
         if col != 'age' and col != 'sex':
@@ -89,10 +89,10 @@ def scattered_json():
 
 def stacked_json():
     #load data
-    df = task02.get_data("processed.cleveland.data")
+    df = get_data("processed.cleveland.data")
     
     #data cleansing
-    df = task02.data_cleansing(df)
+    df = data_cleansing(df)
 
     #binning
     df = binning(df,'age',3)

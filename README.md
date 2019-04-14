@@ -27,7 +27,7 @@ flaskr/templates for html files (those used for corresponding .py is in their su
 ## To install all packages
 
 ```
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 
 ```
 
@@ -35,7 +35,7 @@ $ pip install -r requirements.txt
 Note:Make sure you are at project directory a.k.a CBIN NOT flaskr
 
 ```
-> python start.py
+> python3 start.py
 
 ```
 
